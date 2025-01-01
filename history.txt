@@ -59,3 +59,4 @@
 2025-10-02 10:30:15 rollback changes
 2025-04-20 13:14:58 upgrade dependencies
 2025-01-25 10:11:42 enhance logging
+2025-01-01 08:18:49 add integration tests
