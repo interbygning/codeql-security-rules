@@ -90,3 +90,4 @@
 2025-12-09 18:01:33 add changelog
 2025-07-30 14:14:14 update docs with examples
 2025-11-25 22:38:05 restructure modules
+2025-01-04 16:29:35 fix build error
