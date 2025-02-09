@@ -1,0 +1,19 @@
+---
+library: false
+name: zetachain/node-security-codeql
+version: 0.0.1
+description: Detect common vulnerabilities in Cosmos-sdk based blockchains.
+dependencies:
+  codeql/go-all: "0.5.0"
+default-suite:
+  - query: bech32-constant-checks.ql
+  - query: beginendblock-panic.ql
+  - query: floating-point-checks.ql
+  - query: goroutine.ql
+  - query: kvstore-unsafe-key-access.ql
+  - query: kvstore-unsafe-set.ql
+  - query: kvstore-unsafe-iteration.ql
+  - query: mapIteration.ql
+  - query: platformDependentTypes.ql
+  - query: sensitiveImport.ql
+  - query: systemTime.ql

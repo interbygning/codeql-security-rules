@@ -1,0 +1,22 @@
+# Metadata 
+.DS_Store
+
+# Compilation files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Compilation folder 
+.codeql/
+
+
+# Per folder ignore files 
+
+zeta-protocol-checks/codeql-pack.lock.yml
+zeta-protocol-checks/.codeql/
+
+
+zeta-sc-checks/codeql-pack.lock.yml
+zeta-sc-checks/.codeql/
