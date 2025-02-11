@@ -2,15 +2,14 @@ name: CI/CD with CodeQL
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
+    types: [closed]
 
 jobs:
   codeql-build-and-publish:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     
     steps:
