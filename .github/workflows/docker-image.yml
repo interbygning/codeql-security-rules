@@ -26,7 +26,5 @@ jobs:
             cd /app/zeta-protocol-checks && \
             codeql pack install && \
             codeql pack create -v . && \
-            echo '${{ secrets.GITHUB_TOKEN }}' > /tmp/token.txt && \
-            codeql pack publish --github-auth-stdin < /tmp/token.txt && \
-            rm -f /tmp/token.txt
+            echo '${{ secrets.GITHUB_TOKEN }}' | codeql pack publish --github-auth-stdin
           "
