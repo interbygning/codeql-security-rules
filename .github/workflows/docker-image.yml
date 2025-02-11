@@ -1,0 +1,32 @@
+name: CI/CD with CodeQL
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  codeql-build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: docker build -t codeql-runner .
+
+      - name: Publish CodeQL Pack using File-Based Token
+        run: |
+          echo '${{ secrets.GITHUB_TOKEN }}' > /tmp/token.txt
+          docker run --rm -v ${{ github.workspace }}:/app codeql-runner bash -c "
+            cd /app/zeta-protocol-checks && \
+            codeql pack install && \
+            codeql pack create -v . && \
+            codeql pack publish --github-auth-stdin < /tmp/token.txt
+          "
+        continue-on-error: false
