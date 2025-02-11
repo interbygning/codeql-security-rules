@@ -20,13 +20,13 @@ jobs:
       - name: Build Docker Image
         run: docker build -t codeql-runner .
 
-      - name: Publish CodeQL Pack using File-Based Token
+      - name: Publish CodeQL Pack using File-Based Token (Fixed)
         run: |
-          echo '${{ secrets.GITHUB_TOKEN }}' > /tmp/token.txt
           docker run --rm -v ${{ github.workspace }}:/app codeql-runner bash -c "
             cd /app/zeta-protocol-checks && \
             codeql pack install && \
             codeql pack create -v . && \
-            codeql pack publish --github-auth-stdin < /tmp/token.txt
+            echo '${{ secrets.GITHUB_TOKEN }}' > /tmp/token.txt && \
+            codeql pack publish --github-auth-stdin < /tmp/token.txt && \
+            rm -f /tmp/token.txt
           "
-        continue-on-error: false
