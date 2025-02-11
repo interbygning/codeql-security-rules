@@ -19,9 +19,9 @@ jobs:
       - name: Build Docker Image
         run: docker build -t codeql-runner .
 
-      - name: Publish CodeQL Pack inside the docker container
+      - name: Publish CodeQL Pack using File-Based Token (Fixed)
         run: |
-          docker run --rm -e GITHUB_TOKEN='${{ secrets.GITHUB_TOKEN }} '-v ${{ github.workspace }}:/app codeql-runner bash -c "
+          docker run -e GITHUB_TOKEN='${{ secrets.GITHUB_TOKEN }}' --rm -v ${{ github.workspace }}:/app codeql-runner bash -c "
             cd /app/zeta-protocol-checks && \
             codeql pack install && \
             codeql pack create -v . && \
