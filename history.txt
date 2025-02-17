@@ -53,3 +53,4 @@
 2025-04-20 04:37:16 fix compatibility
 2025-05-15 23:48:04 add helper function
 2025-05-22 07:29:47 update roadmap
+2025-02-17 16:44:44 fix encoding issue
