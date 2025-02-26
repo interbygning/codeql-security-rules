@@ -1,0 +1,31 @@
+name: zeta-chain/smartcontract-security-codeql
+version: 0.0.1
+groups: solidity
+extractor: solidity
+dbscheme: solidity.dbscheme
+upgrades: upgrades
+library: true
+dependencies:
+  codeql/controlflow: "*"
+  codeql/dataflow: "*"
+  codeql/mad: "*"
+  codeql/regex: "*"
+  codeql/ssa: "*"
+  codeql/tutorial: "*"
+  codeql/util: "*"
+dataExtensions:
+  - codeql/solidity/frameworks/**/model.yml
+  - codeql/solidity/frameworks/**/*.model.yml
+warnOnImplicitThis: true
+default-suite:
+- query: insecure-http-parser.ql
+- query: smart-contract-bitshift-order.ql
+- query: smart-contract-msg-value-in-loop.ql
+- query: smart-contract-unprotected-selfdestruct.ql
+- query: smart-contract-arbitrary-send-erc20.ql
+- query: smart-contract-divide-before-multiply.ql
+- query: smart-contract-shadowed-builtins.ql
+- query: smart-contract-bad-prng.ql
+- query: smart-contract-incorrect-exp.ql
+- query: smart-contract-unchecked-transfer.ql
+- query: unreachable-code.ql
