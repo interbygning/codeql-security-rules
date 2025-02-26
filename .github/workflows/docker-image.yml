@@ -19,13 +19,49 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Check for Version Change - Protocol checks
+        id: check_protocol_version
+        run: |
+          cd zeta-protocol-checks
+          VERSION=$(grep '^version:' codeql-pack.yml | awk '{print $2}')
+          if git diff --exit-code HEAD^ HEAD -- codeql-pack.yml; then
+            echo "No version change detected. Skipping CI/CD."
+            exit 1
+          fi
+          echo "Version changed: $VERSION"
+
       - name: Build Docker Image
+        if: steps.check_protocol_version.outcome == 'success'
         run: docker build -t codeql-runner .
 
-      - name: Publish CodeQL Pack inside the docker container
+      - name: Publish CodeQL Pack inside the docker container - Protocol checks
+        if: steps.check_protocol_version.outcome == 'success'
         run: |
           docker run --rm -v ${{ github.workspace }}:/app codeql-runner bash -c "
             cd /app/zeta-protocol-checks && \
+            codeql pack install && \
+            codeql pack create -v . && \
+            echo '${{ secrets.GITHUB_TOKEN }}' > /tmp/token.txt && \
+            codeql pack publish --github-auth-stdin < /tmp/token.txt && \
+            rm -f /tmp/token.txt
+          "
+
+      - name: Check for Version Change - SC checks
+        id: check_sc_version
+        run: |
+          cd zeta-sc-checks
+          VERSION=$(grep '^version:' codeql-pack.yml | awk '{print $2}')
+          if git diff --exit-code HEAD^ HEAD -- codeql-pack.yml; then
+            echo "No version change detected. Skipping CI/CD."
+            exit 1
+          fi
+          echo "Version changed: $VERSION"
+
+      - name: Publish CodeQL Pack inside the docker container - SC checks
+        if: steps.check_sc_version.outcome == 'success'
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/app codeql-runner bash -c "
+            cd /app/zeta-sc-checks && \
             codeql pack install && \
             codeql pack create -v . && \
             echo '${{ secrets.GITHUB_TOKEN }}' > /tmp/token.txt && \
