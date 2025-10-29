@@ -3,3 +3,4 @@
 2025-07-05 13:18:58 better error handling
 2025-04-19 21:56:11 add tests
 2025-10-17 21:18:49 typo fix
+2025-10-29 23:55:42 fix misconfiguration
